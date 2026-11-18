@@ -1,0 +1,26 @@
+services:
+  atrox:
+    build: .
+    environment:
+      ATROX_MASTER_KEY: ${ATROX_MASTER_KEY:?Set a stable 64-character hex master key in .env}
+      ATROX_DATA_DIR: /data
+      PORT: 5173
+      APP_ORIGIN: ${APP_ORIGIN:-}
+      ATROX_WEBHOOK_HOSTS: ${ATROX_WEBHOOK_HOSTS:-}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      STRIPE_PRO_PRICE: ${STRIPE_PRO_PRICE:-}
+      STRIPE_TEAM_PRICE: ${STRIPE_TEAM_PRICE:-}
+    volumes:
+      - workspace_data:/data
+    ports:
+      - '127.0.0.1:5173:5173'
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 512m
+    cpus: 1.5
+volumes:
+  workspace_data:
